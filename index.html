@@ -8,6 +8,7 @@
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
 
   <title>Personal Finance JS</title>
@@ -25,6 +26,9 @@
 
     <div class="row mt-5">
       <div class="col"></div>
+      <div class="col-4">
+        <button class="btn btn-success" id="newRecord">New Record</button>
+      </div>
     </div>
 
     <div class="row">
@@ -51,27 +55,36 @@
         </ul>
       </div>
       <div class="col-4 p-3">
-        <form class="p-4 border">
-          <div class="form-group">
-            <label for="identification">ID</label>
-            <input class="form-control" type="text" name="id" id="identification" readonly>
-          </div>
-          <div class="form-group">
-            <label for="type">Type</label>
-            <select class="form-control" name="type" id="type">
-              <option value="Inc">Income</option>
-              <option value="Exp">Expense</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <input class="form-control" type="text" name="description" id="description">
-          </div>
-          <div class="form-group">
-            <label for="">Amount</label>
-            <input class="form-control" type="number" name="amount" id="amount">
-          </div>
-          <input type="submit" value="Insert" class="btn btn-block btn-primary">
+        <form class="p-4 border" id="formRecord">
+          <fieldset>
+            <div class="form-group">
+              <label for="identification">ID</label>
+              <input class="form-control" type="text" name="id" id="identification" readonly>
+            </div>
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select class="form-control" name="type" id="type">
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input class="form-control" type="text" name="description" id="description">
+            </div>
+            <div class="form-group">
+              <label for="">Amount</label>
+              <input class="form-control" type="number" name="amount" id="amount">
+            </div>
+            <div class="row">
+              <div class="col">
+                <button  class="btn btn-block btn-warning" id="back"><i class="fas fa-times"></i></button>
+              </div>
+              <div class="col">
+                <button type="submit" class="btn btn-block btn-primary" id="insert"><i class="fas fa-check"></i></button>
+              </div>
+            </div>
+          </fieldset>
         </form>
       </div>
     </div>
