@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+
+  <title>Personal Finance JS</title>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="row mt-4">
+      <div class="col">
+        <h1 class="text-center">Personal Finance JS</h1>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col"></div>
+    </div>
+
+    <div class="row">
+      <div class="col p-2 ">
+        <h3 class="text-center">Today <span id="dateNow" class="display-6"></span></h3>
+        <ul class="list-group">
+          <li class="list-group-item bg-info text-light">
+            <div class="row">
+              <div class="col">Description</div>
+              <div class="col-2">Type</div>
+              <div class="col-2">Amount</div>
+            </div>
+          </li>
+
+          <div id="listOfMonth"><!-- load from JS --></div>
+
+          <li class="list-group-item bg-light">
+            <div class="row">
+              <div class="col text-right"></div>
+              <div class="col-2 text-right">Total:</div>
+              <div class="col-2"><div id="totalAmount"></div></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-4 p-3">
+        <form class="p-4 border">
+          <div class="form-group">
+            <label for="identification">ID</label>
+            <input class="form-control" type="text" name="id" id="identification" readonly>
+          </div>
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" name="type" id="type">
+              <option value="Inc">Income</option>
+              <option value="Exp">Expense</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input class="form-control" type="text" name="description" id="description">
+          </div>
+          <div class="form-group">
+            <label for="">Amount</label>
+            <input class="form-control" type="number" name="amount" id="amount">
+          </div>
+          <input type="submit" value="Insert" class="btn btn-block btn-primary">
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script src="financeRegister.js"></script>
+  <script src="app.js"></script>
+  <script src="index.js"></script>
+
+</body>
+
+</html>
