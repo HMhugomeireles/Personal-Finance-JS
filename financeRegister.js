@@ -1,9 +1,11 @@
 class FinanceRegister{
-  constructor(id, type, description, amount) {
-    this.id = id;
+  constructor(id, type, day, month, description, amount) {
+    this.id = Number(id);
     this.type = type;
+    this.month = month;
+    this.day = day;
     this.description = description;
-    this.amount = amount;
+    this.amount = Number(amount);
   }
 
   getId() {
@@ -20,6 +22,14 @@ class FinanceRegister{
 
   getAmount() {
     return this.amount;
+  }
+
+  getMonth() {
+    return this.month;
+  }
+
+  getDay() {
+    return this.day;
   }
 
   print() {

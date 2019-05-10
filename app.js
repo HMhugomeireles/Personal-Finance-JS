@@ -1,5 +1,10 @@
 class App {
   constructor() {
+    this.list = [
+      new FinanceRegister(1, 'Income', 4, 5, 'Month Salary', 100),
+      new FinanceRegister(2,'Income', 8, 5, 'Home Rentals', 500),
+      new FinanceRegister(3,'Expense', 8, 5, 'Tax Home Rentals', 200)
+    ];
 
     // Elements from DOM
     this.dateNowElement = document.querySelector('#dateNow').innerHTML = this.buildData();
@@ -10,18 +15,21 @@ class App {
     this.inputDescription = document.querySelector('#description');
     this.inputAmount = document.querySelector('#amount');
     this.fieldset = document.querySelector('fieldset');
+    this.listGroupUl = document.querySelector('.list-group');
+
     // Buttons
-    this.btnInsert = document.querySelector('#insert');
     this.btnBack = document.querySelector('#back');
     this.btnNewRecord = document.querySelector('#newRecord');
     this.formRecord = document.querySelector('#formRecord');
 
     this.loadData();
     this.setFormReadOnlyTo(true);
+    this.buildChart();
 
     // set events
     this.initEvent();
 
+    console.log(this.getDataToChart())
   }
 
   buildData() {
@@ -32,6 +40,7 @@ class App {
   }
 
   loadData() {
+    this.totalAmountElement.innerHTML = " "; 
     const listOfMonth = this.getListOfMonth();
     let listOutput = "";
     let totalAmount = 0;
@@ -41,7 +50,8 @@ class App {
 
       if (register.getType() === 'Income') {
         totalAmount += register.getAmount();
-      } else {
+      }
+      if (register.getType() === 'Expense') {
         totalAmount -= register.getAmount();
       }
 
@@ -49,26 +59,40 @@ class App {
 
     this.listOfMonthElement.innerHTML = listOutput;
     this.totalAmountElement.innerHTML = totalAmount + '€';
-
+    
     if (totalAmount < 0) {
       this.totalAmountElement.className = "text-danger";
     } else {
       this.totalAmountElement.className = "text-success";
     }
+
   }
 
   initEvent() {
     this.btnNewRecord.addEventListener("click", () => {
       this.setFormReadOnlyTo(false);
+
+      let nextID = this.list.length + 1;
+      this.inputId.value = nextID;
     });
     this.btnBack.addEventListener("click", () => {
       this.setFormReadOnlyTo(true);
     });
-    this.btnInsert.addEventListener("click", () => {
-      this.setFormReadOnlyTo(true);
-    });
     this.formRecord.addEventListener("submit", (e) => {
-      console.log(e);
+      e.preventDefault();
+      this.setFormReadOnlyTo(true);
+
+      let id = this.inputId.value;
+      let type = this.inputType.value;
+      let description = this.inputDescription.value;
+      let amount = this.inputAmount.value;
+
+      // insert new register
+      this.list.push(new FinanceRegister(id, type, new Date().getDay, (new Date().getMonth + 1), description, amount));
+
+      this.clearForm();
+
+      this.loadData();
     });
   }
 
@@ -82,14 +106,50 @@ class App {
     }
   }
 
-
-  getListOfMonth() {
-    return [
-        new FinanceRegister(1, 'Income', 'Month Salary', 100),
-        new FinanceRegister(2,'Income', 'Home Rentals', 500),
-        new FinanceRegister(3,'Expense', 'Tax Home Rentals', 200)
-    ];
+  clearForm() {
+    this.inputId.value = "";
+    this.inputDescription = "";
+    this.inputAmount.value = "";
   }
 
+  getListOfMonth() {
+    return this.list;
+  }
+
+  buildChart() {
+    let dataValues = this.getDataToChart();
+
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawBackgroundColor);
+
+    function drawBackgroundColor() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'X');
+      data.addColumn('number', 'Days');
+
+
+      data.addRows(dataValues);
+
+      var options = {
+        hAxis: {
+          title: 'Actions Income/Expense'
+        },
+        vAxis: {
+          title: 'Amount'
+        },
+        backgroundColor: '#fff'
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chartDiv'));
+      chart.draw(data, options);
+    }
+
+  }
+
+
+  getDataToChart() {
+    const dataToChart = this.list.map(register => [register.day, register.amount]);
+    return dataToChart;
+  }
 
 }
