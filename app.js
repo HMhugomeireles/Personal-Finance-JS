@@ -1,9 +1,10 @@
 class App {
   constructor() {
     this.list = [
-      new FinanceRegister(1, 'Income', 4, 5, 'Month Salary', 100),
-      new FinanceRegister(2,'Income', 8, 5, 'Home Rentals', 500),
-      new FinanceRegister(3,'Expense', 8, 5, 'Tax Home Rentals', 200)
+      new FinanceRegister(1, 'Expense', 5, 5, 'Shop', 250),
+      new FinanceRegister(1, 'Income', 1, 5, 'Month Salary', 100),
+      new FinanceRegister(2, 'Income', 8, 5, 'Home Rentals', 500),
+      new FinanceRegister(3, 'Expense', 10, 5, 'Tax Home Rentals', 200)
     ];
 
     // Elements from DOM
@@ -29,7 +30,6 @@ class App {
     // set events
     this.initEvent();
 
-    console.log(this.getDataToChart())
   }
 
   buildData() {
@@ -40,13 +40,13 @@ class App {
   }
 
   loadData() {
-    this.totalAmountElement.innerHTML = " "; 
+    this.totalAmountElement.innerHTML = " ";
     const listOfMonth = this.getListOfMonth();
     let listOutput = "";
     let totalAmount = 0;
 
     listOfMonth.forEach(register => {
-      listOutput+= register.print();
+      listOutput += register.print();
 
       if (register.getType() === 'Income') {
         totalAmount += register.getAmount();
@@ -59,7 +59,7 @@ class App {
 
     this.listOfMonthElement.innerHTML = listOutput;
     this.totalAmountElement.innerHTML = totalAmount + '€';
-    
+
     if (totalAmount < 0) {
       this.totalAmountElement.className = "text-danger";
     } else {
@@ -88,7 +88,7 @@ class App {
       let amount = this.inputAmount.value;
 
       // insert new register
-      this.list.push(new FinanceRegister(id, type, new Date().getDay, (new Date().getMonth + 1), description, amount));
+      this.list.push(new FinanceRegister(id, type, new Date().getDay(), new Date().getMonth(), description, amount));
 
       this.clearForm();
 
@@ -119,7 +119,7 @@ class App {
   buildChart() {
     let dataValues = this.getDataToChart();
 
-    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.load('current', { packages: ['corechart', 'line'] });
     google.charts.setOnLoadCallback(drawBackgroundColor);
 
     function drawBackgroundColor() {
@@ -146,9 +146,20 @@ class App {
 
   }
 
-
   getDataToChart() {
     const dataToChart = this.list.map(register => [register.day, register.amount]);
+
+    function sortArrayDimensional(a, b) {
+      if (a[0] === b[0]) {
+        return 0;
+      }
+      else {
+        return (a[0] < b[0]) ? -1 : 1;
+      }
+    }
+    
+    dataToChart.sort(sortArrayDimensional);
+    
     return dataToChart;
   }
 

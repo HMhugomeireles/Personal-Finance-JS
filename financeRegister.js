@@ -1,4 +1,4 @@
-class FinanceRegister{
+class FinanceRegister {
   constructor(id, type, day, month, description, amount) {
     this.id = Number(id);
     this.type = type;
@@ -32,12 +32,22 @@ class FinanceRegister{
     return this.day;
   }
 
+  formatDateToShow() {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    let dateFormated = this.getDay() + " " + monthNames[this.getMonth()];
+
+    return dateFormated;
+  }
+
   print() {
     let output;
 
     const type = this.getType();
 
-    switch(type) {
+    switch (type) {
       case 'Income':
         output = `<div class="col-2 text-success">+${this.getAmount()}€</div>`;
         break;
@@ -49,7 +59,7 @@ class FinanceRegister{
     return `<li class="list-group-item">
               <div class="row">
                 <div class="col">${this.getDescription()}</div>
-                <div class="col-2">${this.getType()}</div>
+                <div class="col-2">${this.formatDateToShow()}</div>
                 ${output}
               </div>
             </li>`;
